@@ -79,6 +79,28 @@
         
         Conversely, suppose that $A$ is bounded on $\ell^2(\Ntrl)$. 
         
+        Define a linear function $L$ on the space of sequences of finite support by
+        \begin{equation*}
+            L(x_n\;:\;n \geq 0) = \sum_{n\geq 0}a_nx_n.
+        \end{equation*}
+        
+        Suppose that $x \in \ell^1(\Ntrl)$ and $\|x\|_1\leq 1$. Then
+        we can find $a,b\in \ell^2(\Ntrl)$ such that $x = a*\overline{b}$
+        and $\|a\|_2 \leq 1$ and $\|b\|_2\leq 1$.
+        Hence,
+        \begin{align*}
+            Lx &= \sum_{n\geq 0}\sum_{j=0}^n a_j\overline{b}_{n-j}\\
+            &= \sum_{j,k\geq 0}a_{j+k} a_j b_k\\
+            &= \langle Aa,b\rangle\\
+        \end{align*}
+        Hence, $|Lx| \leq \|A\|_{\ell^2(\Ntrl})$ for $\|x\|_1 \leq 1$.
+        
+        Hence by the Hahn-Banach theorem, $L$ extends to a linear functional
+        on $\ell^1(\Ntrl)$.
+        
+        
+        
+        
     \end{proof}
     
 
