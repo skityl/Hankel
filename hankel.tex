@@ -23,13 +23,19 @@
 \newcommand{\sgn}{\operatorname{sgn}}
 \newcommand{\Diff}{\mathcal{D}}
 \newcommand{\pvint}{\mathrm{p.v.}\int}
+\newcommand{\BMOA}{{BMOA}}
 
 \section*{Introduction}
     A \emph{Hankel matrix} is an infinite matrix of the form $(a_{j+k}\;:\;j,k\geq 0)$ for some 
     sequence $(a_j\;:\;j,\geq 0)$.
     
     Such a matrix defines a linear operator on the space of sequences indexed by $\Ntrl$ of finite support,
-    with the matrix $A = (a_{j+k}\;:\;j,k\geq 0)$ acting on the sequence $(x_k\;:\;k\geq 0)$ by matrix
+    which we denote $\mathcal{F}$.
+    
+    The inverse fourier transform of $\mathcal{F}$ is the set of polynomials on $\Circ$,
+    which we denote $\mathcal{P}$.
+    
+    The matrix $A = (a_{j+k}\;:\;j,k\geq 0)$ acts on the sequence $(x_k\;:\;k\geq 0) \in \mathcal{F}$ by matrix
     multiplication,
     \begin{equation*}
         (Ax)_j = \sum_{k\geq 0} a_{j+k}x_k.
@@ -38,6 +44,8 @@
     These notes cover the conditions under which a Hankel matrix acting in this way extends to a bounded linear
     operator on $\ell^2(\Ntrl)$, and under what conditions this operator is in some ideal of
     compact operators.
+    
+    
     
 \section*{Boundedness}
     Suppose that $A = (a_{j+k}\;:\;j,k\geq 0)$ is a Hankel matrix. We wish to find
@@ -51,14 +59,14 @@
             \hat{\psi}(n) = a_n
         \end{equation*}
         for $n\geq 0$.
-        Moreover,
-        \begin{equation*}
-            \|A\|_{\ell^2(\Ntrl)} = \inf\{\|\psi\|_{\infty}\;:\;\hat{\psi}(n) = a_n,n\geq 0\}.
-        \end{equation*}
+%        Moreover,
+%        \begin{equation*}
+%            \|A\|_{\ell^2(\Ntrl)} = \inf\{\|\psi\|_{\infty}\;:\;\hat{\psi}(n) = a_n,n\geq 0\}.
+%        \end{equation*}
     \end{theorem}
     \begin{proof}
         First assume that $\psi \in L^\infty(\Circ)$ with $\hat{\psi}(n) = a_n$ for $n\geq 0$.
-        Suppose that $x = (x_j\;:\;j\geq 0)$ and $y = (y_j\;:\;j\geq 0)$ is a finitely supported sequence. 
+        Suppose that $x = (x_j\;:\;j\geq 0)$ and $y = (y_j\;:\;j\geq 0)$ are in $\mathcal{F}$.
         Then we compute,
         \begin{align*}
             \langle Ax,y \rangle &= \sum_{j,k\geq 0} a_{j+k}a_j\overline{y}_k\\
@@ -78,30 +86,92 @@
         Hence, $\langle Ax,y\rangle \leq \|\psi\|_\infty \|x\|_2\|y\|_2$. So $\|A\|_{\ell^2{\Ntrl}} \leq \|\psi\|_\infty$.
         
         Conversely, suppose that $A$ is bounded on $\ell^2(\Ntrl)$. 
-        
-        Define a linear function $L$ on the space of sequences of finite support by
+        Note that we must have $a \in \ell^{\infty}(\Ntrl)$, because otherwise
+        the sequence 
         \begin{equation*}
-            L(x_n\;:\;n \geq 0) = \sum_{n\geq 0}a_nx_n.
+            \{\|Ae_n\|\}_{n \geq 0}
         \end{equation*}
+        would be unbounded.
         
-        Suppose that $x \in \ell^1(\Ntrl)$ and $\|x\|_1\leq 1$. Then
-        we can find $a,b\in \ell^2(\Ntrl)$ such that $x = a*\overline{b}$
-        and $\|a\|_2 \leq 1$ and $\|b\|_2\leq 1$.
-        Hence,
-        \begin{align*}
-            Lx &= \sum_{n\geq 0}\sum_{j=0}^n a_j\overline{b}_{n-j}\\
-            &= \sum_{j,k\geq 0}a_{j+k} a_j b_k\\
-            &= \langle Aa,b\rangle\\
-        \end{align*}
-        Hence, $|Lx| \leq \|A\|_{\ell^2(\Ntrl})$ for $\|x\|_1 \leq 1$.
+        Define a linear functional $\omega$ on $\mathcal{P}$ as follows,
+        \begin{equation*}
+            \omega(p) = \sum_{n\geq 0} a_n \hat{p}(n).
+        \end{equation*}
+        We wish to show that $\omega$ is bounded in the $L^1(\Circ)$ norm. 
         
-        Hence by the Hahn-Banach theorem, $L$ extends to a linear functional
-        on $\ell^1(\Ntrl)$.
+        First consider the case that $a \in \ell^1(\Ntrl)$. Then $\check{a} \in C(\Circ)$,
+        and
+        \begin{equation*}
+            \omega(p) = \langle \check{a},\overline{p}\rangle \leq \|\check{a}\|_{\infty}\|p\|_1.
+        \end{equation*}
+        So for the case $a \in \ell^1(\Ntrl)$, $\omega$ is bounded in the $L^1$ norm,
+        and so extends to a continuous linear functional on $H^1$.
+        
+        For the case $a \notin \ell^1(\Ntrl)$, let $0 < r < 1$ and consider the sequence
+        \begin{equation*}
+            a^{(r)} := (r^na_n\;:\;n\geq 0)
+        \end{equation*}
+        and the associated Hankel matrix $A_r = (a^{(r)}_{j+k}\;:\;j,k\geq 0)$.
+        If $D_r$ is the diagonal infinite matrix with $j$th diagonal entry $r^j$, then
+        $A_r = D_r A D_r$. Since $D_r$ is bounded, we must have $A_r$ is bounded.
+        
+        Since $a \in \ell^\infty(\Ntrl)$, $a^{r} \in \ell^1(\Ntrl)$. Hence the linear functional
+        \begin{equation*}
+            \omega_r(p) := \sum_{n\geq 0} a^{(r)}_n\hat{p}(n), p \in \mathcal{P}
+        \end{equation*}
+        extends continuously to $H^1$.
+        
+        However, $\omega_r \rightarrow \omega$ for $r\rightarrow 1$ in the weak$^*$ topology (that is,
+        for all $\psi \in H^1$, $\omega_r(\psi)\rightarrow \omega(\psi)$).
+        
+        Hence $\omega$ is bounded on $H^1$ for any $a$ such that $A$ is bounded.
+        So $\omega$ extends is of the form $\omega(p) = \langle \psi,p\rangle$
+        for some $\psi \in L^\infty$. Hence $a_n = \hat{\psi}(n)$.
         
         
-        
+  %      Define a linear function $L$ on the space of sequences of finite support by
+  %      \begin{equation*}
+  %          L(x_n\;:\;n \geq 0) = \sum_{n\geq 0}a_nx_n.
+  %      \end{equation*}
+  %      
+  %      Suppose that $x \in \ell^1(\Ntrl)$ and $\|x\|_1\leq 1$. Then
+  %      we can find $a,b\in \ell^2(\Ntrl)$ such that $x = a*\overline{b}$
+  %      and $\|a\|_2 \leq 1$ and $\|b\|_2\leq 1$.
+  %      Hence,
+  %      \begin{align*}
+  %          Lx &= \sum_{n\geq 0}\sum_{j=0}^n a_j\overline{b}_{n-j}\\
+  %          &= \sum_{j,k\geq 0}a_{j+k} a_j b_k\\
+  %          &= \langle Aa,b\rangle\\
+  %      \end{align*}
+  %      Hence, $|Lx| \leq \|A\|_{\ell^2(\Ntrl})$ for $\|x\|_1 \leq 1$.
+  %      
+  %      Hence by the Hahn-Banach theorem, $L$ extends to a linear functional
+  %      on $\ell^1(\Ntrl)$.
         
     \end{proof}
+    
+    We can give another useful characterisation of bounded Hankel operators 
+    with the space $\BMOA(\Circ)$, defined as $\BMOA(\Circ) = \BMO(\Circ)\cap H^1$.
+    \begin{lemma}
+        The Hankel matrix $A = (a_{j+k}\;:\;j,k\geq 0)$ defines a bounded linear operator on $\ell^2(\Ntrl)$
+        if and only if the power series
+        \begin{equation*}
+            \varphi(z) = \sum_{n\geq 0}a_n z^n
+        \end{equation*}
+        defines an element in $\BMOA(\Circ)$ for $z \in \Circ$.
+    \end{lemma}
+    \begin{proof}
+        If $\varphi \in \BMOA(\Circ)$, then $\varphi = \Proj_+\varphi \in L^\infty(\Circ)$. Hence
+        $A$ is bounded.
+        
+        Now if $A$ is bounded, then there is some $\psi \in L^\infty$ such that $\varphi = \Proj_+\psi = \frac{1}{2}(\psi+\tilde{\psi})$.
+        Hence $\varphi \in \BMOA(\Circ)$.
+    \end{proof}
+    
+    \section*{Finite Rank Operators}
+        We have characterised those Hankel matrices which define bounded linear operators
+        on $\ell^2(\Ntrl)$. We now seek to refine this to the class of finite rank operators
+        on $\ell^2(\Ntrl)$.
     
 
     
